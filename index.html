@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合肥白蚁防治登记系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .header img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .main {
+            padding: 20px;
+        }
+        
+        .form {
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .message {
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                box-shadow: none;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .main {
+                padding: 15px;
+            }
+        }
+    </style>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwN2JmZiI+PHBhdGggZD0iTTEwLDE3SDZ2LTJoNHYyek0xNywxM0g2di0yaDExVjEzeiBNMTIsMkExMCwxMCAwIDAsMCAyLDEyQTEwLDEwIDAgMCwwIDEyLDIyQTEwLDEwIDAgMCwwIDIyLDEyQTEwLDEwIDAgMCwwIDEyLDJ6Ii8+PC9zdmc+" alt="政务图标">
+            <h1>合肥白蚁防治登记系统</h1>
+            <p>合肥市区信息登记</p>
+        </header>
+
+        <main class="main">
+            <form id="registrationForm" class="form">
+                <div class="form-group">
+                    <label for="region">区域</label>
+                    <select id="region" required>
+                        <option value="">请选择区域</option>
+                        <option value="瑶海区">瑶海区</option>
+                        <option value="庐阳区">庐阳区</option>
+                        <option value="蜀山区">蜀山区</option>
+                        <option value="包河区">包河区</option>
+                        <option value="高新区">高新区</option>
+                        <option value="经开区">经开区</option>
+                        <option value="政务区">政务区</option>
+                        <option value="滨湖区">滨湖区</option>
+                        <option value="新站区">新站区</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="road">道路</label>
+                    <input type="text" id="road" placeholder="请输入道路名称" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="community">小区/单位名称</label>
+                    <input type="text" id="community" placeholder="请输入小区/单位名称" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">登记人</label>
+                    <input type="text" id="name" placeholder="请输入姓名" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">联系电话</label>
+                    <input type="tel" id="phone" placeholder="请输入联系电话" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="damage_part">危害部位</label>
+                    <select id="damage_part" required>
+                        <option value="">请选择危害部位</option>
+                        <option value="园林">园林</option>
+                        <option value="室内">室内</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span id="btnText">提交登记</span>
+                    <div class="loading" id="loadingSpinner" style="display: none;"></div>
+                </button>
+            </form>
+
+            <div id="message" class="message"></div>
+            
+            
+        </main>
+
+        <footer class="footer">
+            <p>政务服务便民热线：0551-62642674</p>
+        </footer>
+    </div>
+
+    <script>
+        // 初始化Supabase客户端
+        // 请替换为您的Supabase项目URL和API密钥
+        const supabaseUrl = 'https://gzaplxeswmvqclsuhofn.supabase.co'; // 例如: 'https://your-project.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6YXBseGVzd212cWNsc3Vob2ZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzODI2MjYsImV4cCI6MjA3NTk1ODYyNn0.LDvreiNKtaXOPI6MFg8CFXhS8vqQehBLdCWMCnrIQjY'; // 您的Supabase项目的anon/public key
+        
+        // 创建Supabase客户端
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const message = document.getElementById('message');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const configInfo = document.getElementById('configInfo');
+            
+            // 检查Supabase配置
+            if (supabaseUrl === 'YOUR_SUPABASE_URL' || supabaseKey === 'YOUR_SUPABASE_ANON_KEY') {
+                showMessage('请先配置Supabase连接信息', 'error');
+                submitBtn.disabled = true;
+            }
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // 显示加载状态
+                btnText.textContent = '提交中...';
+                loadingSpinner.style.display = 'inline-block';
+                submitBtn.disabled = true;
+                
+                // 获取表单数据
+                const formData = {
+                    region: document.getElementById('region').value,
+                    road: document.getElementById('road').value,
+                    community: document.getElementById('community').value,
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    damage_part: document.getElementById('damage_part').value,
+                    created_at: new Date().toISOString()
+                };
+                
+                // 简单验证
+                if (!formData.region || !formData.road || !formData.community || !formData.name || !formData.phone || !formData.damage_part) {
+                    showMessage('请填写所有必填字段', 'error');
+                    resetButtonState();
+                    return;
+                }
+                
+                // 手机号验证
+                const phoneRegex = /^1[3-9]\d{9}$/;
+                if (!phoneRegex.test(formData.phone)) {
+                    showMessage('请输入有效的手机号码', 'error');
+                    resetButtonState();
+                    return;
+                }
+                
+                try {
+                    // 插入数据到Supabase
+                    const { data, error } = await supabase
+                        .from('registrations') // 替换为您的表名
+                        .insert([formData]);
+                    
+                    if (error) {
+                        console.error('Supabase插入错误:', error);
+                        showMessage('提交失败: ' + error.message, 'error');
+                    } else {
+                        console.log('数据插入成功:', data);
+                        showMessage('登记信息提交成功！', 'success');
+                        // 清空表单
+                        form.reset();
+                    }
+                } catch (err) {
+                    console.error('提交过程中发生错误:', err);
+                    showMessage('提交失败，请检查网络连接或配置', 'error');
+                } finally {
+                    resetButtonState();
+                }
+            });
+            
+            function showMessage(text, type) {
+                message.textContent = text;
+                message.className = 'message ' + type;
+                message.style.display = 'block';
+                
+                // 5秒后自动隐藏消息（错误消息不自动隐藏）
+                if (type !== 'error') {
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 5000);
+                }
+            }
+            
+            function resetButtonState() {
+                btnText.textContent = '提交登记';
+                loadingSpinner.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
