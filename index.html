@@ -2,94 +2,96 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>合肥白蚁防治登记系统</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
             background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+            font-size: 18px;
         }
         
         .container {
-            max-width: 600px;
+            max-width: 100%;
             margin: 0 auto;
-            background-color: #fff;
-            min-height: 100vh;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 0 15px;
         }
         
         .header {
+            text-align: center;
+            padding: 25px 0;
             background-color: #007bff;
             color: white;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .header img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
         .header h1 {
-            font-size: 20px;
-            margin-bottom: 5px;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         
         .header p {
-            font-size: 14px;
+            font-size: 16px;
             opacity: 0.9;
         }
         
-        .main {
-            padding: 20px;
-        }
-        
         .form {
-            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
         
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             font-weight: 500;
+            font-size: 18px;
         }
         
         input, select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            border-radius: 6px;
+            font-size: 18px;
+            background-color: #fff;
+            -webkit-appearance: none;
+            appearance: none;
         }
         
-        input:focus, select:focus {
-            border-color: #007bff;
-            outline: none;
+        select {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 18px;
         }
         
         .submit-btn {
             width: 100%;
-            padding: 12px;
+            padding: 18px;
             background-color: #007bff;
-            color: white;
+            color: #fff;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s;
         }
@@ -98,78 +100,110 @@
             background-color: #0056b3;
         }
         
-        .submit-btn:active {
-            transform: translateY(1px);
-        }
-        
         .submit-btn:disabled {
-            background-color: #ccc;
+            background-color: #6c757d;
             cursor: not-allowed;
         }
         
         .message {
-            padding: 10px;
-            border-radius: 4px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
             text-align: center;
-            margin-top: 15px;
+            font-size: 16px;
             display: none;
         }
         
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .message.error {
+        .error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+            display: block;
         }
         
-        .message.info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
         }
         
         .footer {
-            background-color: #f8f9fa;
-            padding: 15px;
             text-align: center;
-            border-top: 1px solid #e0e0e0;
-            margin-top: 20px;
-            font-size: 14px;
+            padding: 25px 0;
+            margin-top: 30px;
             color: #666;
+            font-size: 16px;
         }
         
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-            vertical-align: middle;
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease-out;
         }
         
-        @media (max-width: 480px) {
+        .modal-icon {
+            font-size: 50px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .modal-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .modal-btn {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .modal-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 响应式调整 */
+        @media (min-width: 768px) {
             .container {
-                box-shadow: none;
-            }
-            
-            .header h1 {
-                font-size: 18px;
-            }
-            
-            .main {
-                padding: 15px;
+                max-width: 500px;
             }
         }
     </style>
@@ -178,7 +212,6 @@
 <body>
     <div class="container">
         <header class="header">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwN2JmZiI+PHBhdGggZD0iTTEwLDE3SDZ2LTJoNHYyek0xNywxM0g2di0yaDExVjEzeiBNMTIsMkExMCwxMCAwIDAsMCAyLDEyQTEwLDEwIDAgMCwwIDEyLDIyQTEwLDEwIDAgMCwwIDIyLDEyQTEwLDEwIDAgMCwwIDEyLDJ6Ii8+PC9zdmc+" alt="政务图标">
             <h1>合肥白蚁防治登记系统</h1>
             <p>合肥市区信息登记</p>
         </header>
@@ -212,7 +245,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="name">登记人</label>
+                    <label for="name">申请人</label>
                     <input type="text" id="name" placeholder="请输入姓名" required>
                 </div>
 
@@ -230,15 +263,10 @@
                     </select>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span id="btnText">提交登记</span>
-                    <div class="loading" id="loadingSpinner" style="display: none;"></div>
-                </button>
+                <button type="submit" class="submit-btn">提交登记</button>
             </form>
 
             <div id="message" class="message"></div>
-            
-            
         </main>
 
         <footer class="footer">
@@ -246,103 +274,114 @@
         </footer>
     </div>
 
+    <!-- 成功弹窗 -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">✓</div>
+            <h2 class="modal-title">登记成功</h2>
+            <p class="modal-message">您的登记信息已提交成功！我们会在3个工作日内与您联系。</p>
+            <button class="modal-btn" id="modalConfirmBtn">确定</button>
+        </div>
+    </div>
+
     <script>
-        // 初始化Supabase客户端
-        // 请替换为您的Supabase项目URL和API密钥
-        const supabaseUrl = 'https://gzaplxeswmvqclsuhofn.supabase.co'; // 例如: 'https://your-project.supabase.co'
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6YXBseGVzd212cWNsc3Vob2ZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzODI2MjYsImV4cCI6MjA3NTk1ODYyNn0.LDvreiNKtaXOPI6MFg8CFXhS8vqQehBLdCWMCnrIQjY'; // 您的Supabase项目的anon/public key
-        
+        // Supabase配置
+        const SUPABASE_URL = 'https://gzaplxeswmvqclsuhofn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6YXBseGVzd212cWNsc3Vob2ZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzODI2MjYsImV4cCI6MjA3NTk1ODYyNn0.LDvreiNKtaXOPI6MFg8CFXhS8vqQehBLdCWMCnrIQjY';
+
         // 创建Supabase客户端
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // 导出供其他文件使用
+        window.supabaseClient = supabase;   
+    </script>
+    
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('registrationForm');
-            const message = document.getElementById('message');
-            const submitBtn = document.getElementById('submitBtn');
-            const btnText = document.getElementById('btnText');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const configInfo = document.getElementById('configInfo');
+            const messageDiv = document.getElementById('message');
+            const successModal = document.getElementById('successModal');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
             
-            // 检查Supabase配置
-            if (supabaseUrl === 'YOUR_SUPABASE_URL' || supabaseKey === 'YOUR_SUPABASE_ANON_KEY') {
-                showMessage('请先配置Supabase连接信息', 'error');
-                submitBtn.disabled = true;
-            }
+            // 成功弹窗确认按钮事件
+            modalConfirmBtn.addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
             
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // 显示加载状态
-                btnText.textContent = '提交中...';
-                loadingSpinner.style.display = 'inline-block';
-                submitBtn.disabled = true;
-                
                 // 获取表单数据
-                const formData = {
-                    region: document.getElementById('region').value,
-                    road: document.getElementById('road').value,
-                    community: document.getElementById('community').value,
-                    name: document.getElementById('name').value,
-                    phone: document.getElementById('phone').value,
-                    damage_part: document.getElementById('damage_part').value,
-                    created_at: new Date().toISOString()
-                };
+                const region = document.getElementById('region').value;
+                const road = document.getElementById('road').value;
+                const community = document.getElementById('community').value;
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const damage_part = document.getElementById('damage_part').value;
                 
-                // 简单验证
-                if (!formData.region || !formData.road || !formData.community || !formData.name || !formData.phone || !formData.damage_part) {
+                // 验证数据
+                if (!region || !road || !community || !name || !phone || !damage_part) {
                     showMessage('请填写所有必填字段', 'error');
-                    resetButtonState();
                     return;
                 }
                 
-                // 手机号验证
-                const phoneRegex = /^1[3-9]\d{9}$/;
-                if (!phoneRegex.test(formData.phone)) {
-                    showMessage('请输入有效的手机号码', 'error');
-                    resetButtonState();
+                // 验证手机号格式
+                if (!/^1[3-9]\d{9}$/.test(phone)) {
+                    showMessage('请输入正确的手机号码', 'error');
                     return;
                 }
                 
                 try {
+                    // 显示加载状态
+                    const submitBtn = form.querySelector('.submit-btn');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '提交中...';
+                    
                     // 插入数据到Supabase
-                    const { data, error } = await supabase
-                        .from('registrations') // 替换为您的表名
-                        .insert([formData]);
+                    const { data, error } = await window.supabaseClient
+                        .from('registrations')
+                        .insert([
+                            { 
+                                region: region, 
+                                road: road, 
+                                community: community, 
+                                name: name, 
+                                phone: phone,
+                                damage_part: damage_part,
+                                created_at: new Date().toISOString()
+                            }
+                        ]);
                     
                     if (error) {
-                        console.error('Supabase插入错误:', error);
-                        showMessage('提交失败: ' + error.message, 'error');
-                    } else {
-                        console.log('数据插入成功:', data);
-                        showMessage('登记信息提交成功！', 'success');
-                        // 清空表单
-                        form.reset();
+                        throw error;
                     }
-                } catch (err) {
-                    console.error('提交过程中发生错误:', err);
-                    showMessage('提交失败，请检查网络连接或配置', 'error');
+                    
+                    // 显示成功弹窗
+                    successModal.style.display = 'flex';
+                    
+                    // 重置表单
+                    form.reset();
+                    
+                } catch (error) {
+                    console.error('提交错误:', error);
+                    showMessage('提交失败，请稍后重试: ' + error.message, 'error');
                 } finally {
-                    resetButtonState();
+                    // 恢复按钮状态
+                    const submitBtn = form.querySelector('.submit-btn');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '提交登记';
                 }
             });
             
             function showMessage(text, type) {
-                message.textContent = text;
-                message.className = 'message ' + type;
-                message.style.display = 'block';
+                messageDiv.textContent = text;
+                messageDiv.className = 'message ' + type;
+                messageDiv.style.display = 'block';
                 
-                // 5秒后自动隐藏消息（错误消息不自动隐藏）
-                if (type !== 'error') {
-                    setTimeout(function() {
-                        message.style.display = 'none';
-                    }, 5000);
-                }
-            }
-            
-            function resetButtonState() {
-                btnText.textContent = '提交登记';
-                loadingSpinner.style.display = 'none';
-                submitBtn.disabled = false;
+                // 3秒后自动隐藏消息
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 3000);
             }
         });
     </script>
