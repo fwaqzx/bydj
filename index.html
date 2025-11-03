@@ -263,7 +263,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="name">申请人</label>
+                    <label for="name">联系人</label>
                     <input type="text" id="name" placeholder="请输入姓名" required>
                 </div>
 
@@ -297,7 +297,7 @@
         <div class="modal-content">
             <div class="modal-icon">✓</div>
             <h2 class="modal-title">登记成功</h2>
-            <p class="modal-message">您的登记信息已提交成功！我们会在3个工作日内与您联系。</p>
+            <p class="modal-message">您的登记信息已提交成功！我们会在5个工作日内与您联系。</p>
             <button class="modal-btn" id="modalConfirmBtn">确定</button>
         </div>
     </div>
@@ -343,9 +343,10 @@
                     return;
                 }
                 
-                // 验证手机号格式
-                if (!/^1[3-9]\d{9}$/.test(phone)) {
-                    showMessage('请输入正确的手机号码', 'error');
+                // 验证电话号码格式（支持手机号和座机号）
+                const phoneRegex = /^(1[3-9]\d{9}|(\d{3,4}-)?\d{7,8})$/;
+                if (!phoneRegex.test(phone)) {
+                    showMessage('请输入正确的联系电话（手机号或座机号）', 'error');
                     return;
                 }
                 
